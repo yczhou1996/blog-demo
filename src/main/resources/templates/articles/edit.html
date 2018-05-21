@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>首页</title>
+<link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" />
+<link th:href="@{/bootstrap/css/bootstrap-theme.css}" rel="stylesheet" />
+</head>
+<body>
+	<form method="post" th:action="@{/articles/save}"
+		th:object="${article}" class="form-horizontal">
+		<div class="container">
+			<div class="form-group">
+				<label for="txtTitle" class="col-sm-1 control-label">标题</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="txtTitle" th:field="*{title}"></input>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtContent" class="col-sm-1 control-label">内容</label>
+				<div class="col-sm-7">
+					<textarea id="txtContent" class="form-control" 
+					th:field="*{content}" rows="30">
+					</textarea>
+				</div>
+			</div>
+			<input type="hidden" id="hidId" th:field="*{id}"/>
+			<div class="form-group">
+				<div class="col-sm-offset-1 col-sm-10">
+					<button type="submit" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+			<div class=" col-md-5" th:if="${loginError}">
+				<p class="blog-label-error" th:text="${errorMsg}"></p>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

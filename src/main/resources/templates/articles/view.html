@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>首页</title>
+<link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" />
+<link th:href="@{/bootstrap/css/bootstrap-theme.css}" rel="stylesheet" />
+<link th:href="@{/layui/css/layui.css}" rel="stylesheet" />
+<link th:href="@{/layui/css/modules/layer/default/layer.css}" rel="stylesheet" />
+<script th:src="@{/layui/layui.js}" type="text/javascript"></script>
+<script th:src="@{/layui/lay/modules/layer.js}" type="text/javascript"></script>
+<script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript"></script>
+
+<script>
+	$(function() {
+		$('#show').click(function(){
+			if($('#show').hasClass('glyphicon-chevron-down')){
+				$('#show').attr('class','glyphicon glyphicon-chevron-up');
+				$('#divComment').show(500);
+			}else{
+				$('#show').attr('class','glyphicon glyphicon-chevron-down');
+				$('#divComment').hide(500);
+			}
+		})
+		$('#btnPublish').click(function(){
+			var content = $('#txtcomment').val();
+			if(content==''){
+				layer.msg('内容不能为空', {
+					icon : 5
+				});
+				return false;
+			}else{
+			  	var article_id = $('#articleid').val();
+				$.post("/articles/publish",{comment:content,id:article_id},function(result){
+					if (result != "error") {
+						layer.msg('发表成功', {
+							icon : 1
+						});
+						$('#txtcomment').val('');
+						var size = $('#btnComment').text();
+						$('#btnComment').text(Number(size) + 1);
+						if($("#table1 tr").length<5){
+							let arr = JSON.parse(result)[0];
+							let tmp = `<tr>
+								<td>
+									<span style="color:#fb728a">${arr.username}</span>
+									<br />
+									<span style="color: black">${arr.content}</span>
+									<br />
+									<span style="color:#bfbfbf">${arr.time}</span>
+								</td>
+							</tr>`
+							$('#table1').append('<tbody>'+tmp+'</tbody>');
+							$('#table1').attr('class','table');
+						}
+					} else {
+						layer.msg('请你登录', {
+							icon : 5
+						});
+					}
+				})	 
+			}
+		})
+		$('#btnLike').click(function() {
+			var id = $('#articleid').val();
+			$.post("/articles/likess", {
+				id : id
+			}, function(result) {
+				if (result == "ok") {
+					var size = $('#btnLike').text();
+					$('#btnLike').text(Number(size) + 1);
+					layer.msg('点赞成功', {
+						icon : 1
+					});
+				} else if (result == "all") {
+					layer.msg('你已点赞', {
+						icon : 5
+					});
+				} else {
+					layer.msg('请你登录', {
+						icon : 5
+					});
+				}
+			});
+		})
+		$('#btnMore').click(function(){
+			var count = $("#table1").find("tr").length;
+			var id = $('#articleid').val();
+			$.post("/articles/more",{count:count,id:id},function(result){
+				if (result != "") {
+					let arr = JSON.parse(result);
+					$('#table1').html("");
+					let tmp;
+					arr.forEach(item => {
+						tmp += `<tr>
+							<td>
+							<span style="color:#fb728a">${item.username}</span>
+							<br />
+							<span style="color: black">${item.content}</span>
+							<br />
+							<span style="color:#bfbfbf">${item.time}</span>
+							</td>
+						</tr>`
+					})
+					$('#table1').append('<tbody>'+tmp+'</tbody>');
+					$('#table1').attr('class','table');
+				} else {
+					layer.msg('加载失败', {
+						icon : 5
+					});
+				}
+			})	 
+		})
+	})
+</script>
+</head>
+<body>
+	<div th:object="${articles}">
+		<div >
+			<div class="form-horizontal">
+				<div class="form-group" style="text-align: center;">
+					<h2 id="txtTitle" th:text="*{title}"></h2>
+					<hr >
+					<span class="btn glyphicon glyphicon-eye-open" th:text=*{readSize}></span>
+					<span id="btnLike" th:text="*{likeSize}"
+						class="btn glyphicon glyphicon-thumbs-up"></span> 
+					<span id="btnComment"
+						class="btn glyphicon glyphicon-align-justify"
+						th:text=*{commentSize}></span> <label>作者</label> <label
+						th:text="${author}"></label> <input id="articleid" type="hidden"
+						th:value="*{id}" />
+				</div>
+				<div class="form-group"
+					style="text-align: center; width: 40%; margin: 0 auto;">
+					<label id="txtContent" th:text="*{content}"></label>
+				</div>
+			</div>
+			<div style="text-align: center;">
+				<span id="show" class="glyphicon glyphicon-chevron-down"></span>
+				<div id="divComment" style="display: none;">
+					<form th:action="@{/comment/publish}" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-5 control-label"></label>
+							<div class="col-sm-3">
+								<textarea id="txtcomment" class="form-control"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-6 control-label"></label>
+							<div class="col-sm-3">
+								<button type="button" id="btnPublish" class="btn btn-info">发表评论</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<h5 style="text-align: center;">评论</h5>
+		<div style="margin:0 auto;width:50%;">
+		<table id="table1" class="table">
+			<tr th:each="comments:${comments}">
+				<td>
+					<span th:text="${comments.username}" style="color:#fb728a"></span>
+					<br />
+					<span th:text="${comments.content}" style="color: black"></span>
+					<br />
+					<span th:text="${comments.time}" style="color:#bfbfbf"></span>
+				</td>
+			</tr>
+		</table>
+		<a type="button" id="btnMore" style="cursor:pointer; text-decoration:none;">加载更多</a>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>首页</title>
+<link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" />
+<link th:href="@{/bootstrap/css/bootstrap-theme.css}" rel="stylesheet" />
+</head>
+<body>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">博客列表</div>
+			<div style="float:left;margin-top:15px;">
+				
+			</div>
+			<div class="panel-body">
+				<div th:switch="${loginon}" >
+					<p th:case="on">
+						<a class="btn btn-primary btn-sm" th:href="@{/user/edit}" role="button">个人信息</a>
+						<a class="btn btn-primary btn-sm" th:href="@{/logoff}" role="button">注销</a>
+					</p>
+					<p th:case="off">
+						<a class="btn btn-primary btn-sm" th:href="@{/login}" role="button">登录</a>
+						 <a class="btn btn-primary btn-sm" th:href="@{/register}" role="button">注册</a>
+					</p>
+				</div>
+				<!-- <p>
+					<a class="btn btn-primary btn-sm" th:href="@{/articles/write}"
+						role="button">写博客</a>
+				</p> -->
+			</div>
+
+			<table class="table">
+				<tr class="info">
+					<td>编号</td>
+					<td>标题</td>
+					<!-- <td style="text-align: center" colspan="2">操作</td> -->
+				</tr>
+				<tr th:each="articles:${articles}">
+					<td th:text="${articles.id}"></td>
+					<td><a th:href="@{'/articles/view/'+${articles.id}}"
+						th:text="${articles.title}"></a></td>
+					<!--  <td><a th:href="@{'/articles/update/'+${articles.id}}">修改</a></td>
+                    <td><a th:href="@{'/articles/delete/'+${articles.id}}">删除</a></td> -->
+				</tr>
+			</table>
+			 <div th:object=${page}>
+                <a href="?start=0">[首  页]</a>
+	            <a th:href="@{'/articles/index?start='+${page.number-1}}">[上一页]</a>
+	            <a th:href="@{'/articles/index?start='+${page.number+1}}">[下一页]</a>
+	            <a th:href="@{'/articles/index?start='+${page.TotalPages-1}}">[末  页]</a>
+		    </div>
+		</div>
+	</div>
+</body>
+</html>

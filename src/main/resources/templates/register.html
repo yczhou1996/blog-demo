@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>注册</title>
+<link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" />
+<link th:href="@{/bootstrap/css/bootstrap-theme.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div class="container blog-content-container">
+
+		<form th:action="@{/register}" method="post" class="form-horizontal">
+			<div class="form-group">
+				<h2 style="text-align: center;">欢迎加入我们</h2>
+			</div>
+			<div class="form-group">
+				<label for="username" class="col-sm-5 control-label">用户名</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="username"
+						name="username" maxlength="50" placeholder="请输入账号，至少3个字符，至多20个">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="password" class="col-sm-5 control-label">密码</label>
+				<div class="col-sm-3">
+					<input type="password" class="form-control" id="password"
+						name="password" maxlength="30" placeholder="请输入密码，字母或特殊符号和数字结合">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-5 col-sm-10">
+					<button type="submit" class="btn btn-primary">注册</button>
+					<a th:href="@{login}" role="button" class="btn btn-primary">登录</a>
+				</div>
+			</div>
+			<div class="form-group">
+				<div style="text-align: center;">
+					<span th:text="${errorMsg}"></span>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- /container -->
+
+
+</body>
+</html>
