@@ -21,5 +21,7 @@ public interface UserService {
 	
 	User findByUsername(String username);
 	
+	User findByUsername(String username, String password);
+	
 	boolean Exists(Long id);
 }

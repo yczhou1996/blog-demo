@@ -19,7 +19,7 @@
                     <td th:text="${articles.summary}"></td>
                     <td th:text="${articles.date}"></td>
                     <td><a th:href="@{'/admin/update/'+${articles.id}}">修改</a></td>
-                    <td><a th:href="@{'/admin/delete/'+${articles.id}}">删除</a></td>
+                    <td><a th:href="@{'/admin/delete/'+${articles.id}}" onclick="return check();">删除</a></td>
                 </tr>
         </table>
 </body>

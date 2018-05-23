@@ -3,7 +3,10 @@ package com.zyc.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.SortingFocusTraversalPolicy;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -82,5 +85,29 @@ public class MainController {
 	public String logoff(HttpSession session){
 		session.invalidate();
 		return "/login";
+	}
+	
+	@PostMapping("/login1")
+	public ResponseEntity<?> loginn(User user, HttpSession session){
+		String result = "ok";
+		User u = userService.findByUsername(user.getUsername(),user.getPassword());
+		if(u==null){
+			result="error";
+		} else{
+			session.setAttribute("user", u);
+		}
+		return ResponseEntity.ok(result);
+	}
+	
+	@PostMapping("/register1")
+	public ResponseEntity<?> register1(User user) {
+		String result = "ok";
+		User u = userService.findByUsername(user.getUsername());
+		if(u==null){
+			userService.saveUser(user);	
+		}else{
+			result="error";
+		}
+		return ResponseEntity.ok(result);
 	}
 }

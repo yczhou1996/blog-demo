@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.jayway.jsonpath.internal.function.numeric.Max;
+
 @Entity
 public class Article {
 	@Id 
@@ -16,7 +18,7 @@ public class Article {
 	private Long id;
 	@Column(length=50)
 	private String title;
-	@Column(length=500)
+	@Column(length=5000)
 	private String content;
 	
 	private Long user_id;
