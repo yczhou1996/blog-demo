@@ -7,6 +7,9 @@
 <title>首页</title>
 <link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" />
 <link th:href="@{/bootstrap/css/bootstrap-theme.css}" rel="stylesheet" />
+<link th:href="@{/css/base.css}" rel="stylesheet" />
+<link th:href="@{/css/index.css}" rel="stylesheet" />
+<link th:href="@{/css/m.css}" rel="stylesheet" />
 <style type="text/css">
 	a:hover{
 text-decoration:none;
@@ -20,7 +23,7 @@ text-decoration:none;
 				博客列表
 				<div th:switch="${loginon}" style="float: right;">
 					<p th:case="on">
-						<a th:href="@{/user/edit}" style="color: black">个人信息</a> 
+						<a th:href="@{/user/edit}" style="color: black">个人博客</a> 
 						<a th:href="@{/logoff}" style="color: black">注销</a>
 					</p>
 					<p th:case="off">
@@ -35,17 +38,21 @@ text-decoration:none;
 			</div>
 
 
-			<table class="table">
-				<tr class="info">
-					<td>编号</td>
-					<td>标题</td>
-				</tr>
-				<tr th:each="articles:${articles}">
-					<td th:text="${articles.id}"></td>
-					<td><a th:href="@{'/articles/view/'+${articles.id}}"
-						th:text="${articles.title}"></a></td>
-				</tr>
-			</table>
+			<div class="blogs">
+			    <li th:each="articles:${articles}"> 
+			    <span class="blogpic"><a href="/"><img th:src="${articles.photo}"></a></span>
+			      <h3 class="blogtitle">
+			      	<a th:href="@{'/articles/view/'+${articles.id}}" th:text="${articles.title}"></a>
+			      	</h3>
+			      <div class="bloginfo">
+			        <p th:text="${articles.content}"></p>
+			      </div>
+			      <div class="autor">
+			      <span class="dtime" th:text="${articles.time}"></span>
+			      <span class="viewnum">浏览（<a th:href="@{'/articles/view/'+${articles.id}}" th:text="${articles.readSize}"></a>）</span>
+			      <span class="readmore"><a th:href="@{'/articles/view/'+${articles.id}}">阅读原文</a></span></div>
+			    </li>
+ 			</div>
 			<div th:object=${page}>
 				<nav aria-label="Page navigation">
 					<ul class="pagination">

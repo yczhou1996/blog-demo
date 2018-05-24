@@ -21,7 +21,7 @@ public interface ArticleService {
 	
 	List<Article> findAll();
 	
-	List<Article> listAllById(Long id);
+	List<Article> listAllById(Long user_id);
 	
 	void readingIncrease(Long id);
 	

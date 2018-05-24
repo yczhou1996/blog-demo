@@ -4,14 +4,11 @@ package com.zyc.domain;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 public class Comment {
@@ -44,8 +41,6 @@ public class Comment {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	
-	
 	public Long getId() {
 		return id;
 	}

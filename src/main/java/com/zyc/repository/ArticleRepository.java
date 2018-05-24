@@ -1,6 +1,8 @@
 package com.zyc.repository;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +19,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long>{
 	
 	@Query("select u from Article u where u.user_id=:user_id")
 	Page<Article> findAllByUserId(Pageable pageable, @Param("user_id") Long user_id);
+	
+	@Query("select u from Article u where u.user_id=:user_id")
+	List<Article> findAllByUserId(@Param("user_id") Long user_id);
 }

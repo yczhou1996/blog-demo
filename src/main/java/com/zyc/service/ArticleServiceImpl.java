@@ -46,8 +46,9 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 	
 	@Override
-	public List<Article> listAllById(Long id){
-		return null;
+	public List<Article> listAllById(Long user_id){
+		List<Article> articles = articleRepository.findAllByUserId(user_id);
+		return articles;
 	}
 	
 	@Override
@@ -60,7 +61,7 @@ public class ArticleServiceImpl implements ArticleService{
 	@Override
 	public void commentIncrease(Long id){
 		Article article = articleRepository.getOne(id);
-		article.setReadSize(article.getCommentSize()+1);
+		article.setCommentSize(article.getCommentSize()+1);
 		articleRepository.save(article);
 	}
 

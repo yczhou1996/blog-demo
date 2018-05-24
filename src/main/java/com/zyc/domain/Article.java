@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.jayway.jsonpath.internal.function.numeric.Max;
-
 @Entity
 public class Article {
 	@Id 
@@ -20,7 +18,7 @@ public class Article {
 	private String title;
 	@Column(length=5000)
 	private String content;
-	
+	@Column
 	private Long user_id;
 	
 	public Long getUser_id() {
@@ -30,14 +28,18 @@ public class Article {
 	public void setUser_id(Long user_id) {
 		this.user_id = user_id;
 	}
-
+	@Column
 	private Integer readSize=0; 
-	
+	@Column
 	private Integer commentSize=0;  
-	
+	@Column
 	private Integer likeSize=0;
-	
+	@Column
 	private Date createTime;
+	@Column
+	private String time;
+	@Column
+	private String photo;
 
 	public Integer getReadSize() {
 		return readSize;
@@ -94,6 +96,21 @@ public class Article {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 	
 }

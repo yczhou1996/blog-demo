@@ -41,6 +41,8 @@ public class UserController {
 		
 		List<Article> articles = new ArrayList<>();
 		for(Article article : page){
+			int length = article.getContent().length() >80 ? 80:article.getContent().length();
+			article.setContent(article.getContent().substring(0, length)+"...");
 			articles.add(article);
 		}
 		model.addAttribute("articles", articles);
